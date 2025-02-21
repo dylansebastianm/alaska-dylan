@@ -69,7 +69,7 @@ function UserActions({ userData }: { userData: any }) {
 
 function IconButton({ icon: Icon, href }: { icon: any; href: string }) {
     return (
-        <Link href={href} target="_blank" rel="noopener noreferrer">
+        <Link href={href} rel="noopener noreferrer">
             <Button variant="ghost" size="icon" className="cursor-pointer">
                 <Icon className="h-5 w-5" />
             </Button>
