@@ -53,7 +53,7 @@ export function PhoneField({ control }: any) {
 }
 
 export function AgeField({ control }: any) {
-  const { setError } = useFormContext(); 
+  const { setError } = useFormContext();
   return (
     <FormField control={control} name="age" render={({ field }: any) => (
       <FormItem>
@@ -81,7 +81,7 @@ export function AgeField({ control }: any) {
 }
 
 export function LoanAmountField({ control }: any) {
-  const { setError } = useFormContext(); 
+  const { setError } = useFormContext();
 
   return (
     <FormField control={control} name="loan_amount" render={({ field }: any) => (
@@ -110,7 +110,7 @@ export function LoanAmountField({ control }: any) {
 }
 
 export function LoanDateField({ control }: any) {
-  const { setError, clearErrors, formState } = useFormContext();
+  const { setError, clearErrors } = useFormContext();
 
   return (
     <FormField control={control} name="loan_date" render={({ field }: any) => (
@@ -120,7 +120,7 @@ export function LoanDateField({ control }: any) {
           <PopoverTrigger asChild>
             <FormControl>
               <Button variant="outline" className={`w-full pl-3 text-left font-normal ${!field.value && "text-muted-foreground"}`}>
-                {field.value ? format(new Date(field.value), "PPP", { locale: es }) : <span>Selecciona una fecha</span>}
+                {field.value ? format(new Date(field.value + "T00:00:00"), "PPP", { locale: es }) : <span>Selecciona una fecha</span>}
                 <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
               </Button>
             </FormControl>
@@ -128,20 +128,22 @@ export function LoanDateField({ control }: any) {
           <PopoverContent className="w-auto p-0" align="start">
             <Calendar
               mode="single"
-              selected={field.value ? new Date(field.value) : undefined}
+              selected={field.value ? new Date(field.value + "T00:00:00") : undefined}
               onSelect={(date) => {
-                const value = date ? format(date, "yyyy-MM-dd") : undefined;
-
-                if (!value || isNaN(new Date(value).getTime())) {
+                if (!date) {
                   setError("loan_date", {
                     type: "manual",
                     message: "La fecha del préstamo es obligatoria",
                   });
-                } else {
-                  // Limpia los errores previos
-                  clearErrors("loan_date");
-                  field.onChange(value);
+                  return;
                 }
+
+                const localDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+
+                const formattedDate = format(localDate, "yyyy-MM-dd");
+
+                clearErrors("loan_date");
+                field.onChange(formattedDate);
               }}
               disabled={(date) => date < new Date()}
               initialFocus
@@ -153,6 +155,7 @@ export function LoanDateField({ control }: any) {
     )} />
   );
 }
+
 
 export function LoanWeeksField({ control }: any) {
   return (
