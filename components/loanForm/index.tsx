@@ -5,7 +5,7 @@ import { useLoanForm } from "./hooks/useLoanForm";
 import { NameField, PhoneField, AgeField, LoanAmountField, LoanDateField, LoanWeeksField, TermsField, EmailField } from "./loanFields/index";
 import { Button } from "@/components/ui/button";
 import { UserData } from "@/lib/types";
-import { ConfirmationMessage } from "../confirmationMessage";
+import { ConfirmationMessage } from "../messageConfirmation/index";
 
 interface LoanFormProps {
     initialData: UserData | null;
