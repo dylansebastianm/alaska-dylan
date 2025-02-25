@@ -4,11 +4,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Logo from './assets/logo-alaskacircular.d7245bf.svg';
 import Image from "next/image";
-import { getUserData } from "@/lib/actions";
 import Link from "next/link";
+import { useParams } from "next/navigation";
+import { getUserData } from "@/lib/actions";
 
 export default async function Navbar() {
-    const { data: userData } = await getUserData();
+    const { id } = useParams();
+    const userId = Number(id);
+    const { data: userData } = await getUserData(userId);
 
     return (
         <div className="w-full">
